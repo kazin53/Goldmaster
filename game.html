@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Coin Collector 3D - MULTIPLAYER</title>
+    <link rel="stylesheet" href="ui.css">
+</head>
+<body>
+    <!-- ==================================== -->
+    <!-- LOBBY UI (CORRIGIDO) -->
+    <!-- ==================================== -->
+    <div id="lobbyUI" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; color: white; justify-content: center; align-items: center; flex-direction: column;">
+        <h1 style="font-size: 36px; margin-bottom: 30px;">🎮 MULTIPLAYER LOBBY</h1>
+        
+        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; text-align: center; max-width: 90%;">
+            <div id="connectionStatus" style="margin-bottom: 20px; font-size: 16px;">
+                Aguardando conexão...
+            </div>
+            
+            <button id="createRoomBtn" style="padding: 12px 24px; margin: 10px; font-size: 18px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                🏠 Criar Sala (Host)
+            </button>
+            
+            <button id="joinRoomBtn" style="padding: 12px 24px; margin: 10px; font-size: 18px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                🔗 Entrar na Sala
+            </button>
+
+            <!-- CONTAINER DO OFFER -->
+            <div id="offerContainer" style="display: none; margin: 15px 0;">
+                <div style="margin-bottom: 10px; font-size: 14px;" id="offerLabel">Seu código (Offer):</div>
+                <textarea id="hostCode" style="width: 100%; max-width: 400px; height: 80px; padding: 8px; font-size: 12px; margin-bottom: 10px; border-radius: 4px;" readonly></textarea>
+                <button id="connectOfferBtn" style="padding: 8px 16px; font-size: 14px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; display: none;">
+                    Conectar com Offer
+                </button>
+            </div>
+            
+            <!-- CONTAINER DO ANSWER -->
+            <div id="answerContainer" style="display: none; margin: 15px 0;">
+                <div style="margin-bottom: 10px; font-size: 14px;">Código do Guest (Answer):</div>
+                <textarea id="guestCode" style="width: 100%; max-width: 400px; height: 80px; padding: 8px; font-size: 12px; margin-bottom: 10px; border-radius: 4px;"></textarea>
+                <button id="connectAnswerBtn" style="padding: 8px 16px; font-size: 14px; background: #FF9800; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Conectar com Answer
+                </button>
+            </div>
+            
+            <button id="startGameBtn" style="padding: 12px 24px; margin-top: 20px; font-size: 18px; background: #FF9800; color: white; border: none; border-radius: 5px; cursor: pointer; display: none;">
+                🚀 Iniciar Jogo
+            </button>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 14px; color: #ccc; text-align: center;">
+            <div>Seu ID: <span id="localPlayerIdDisplay">-</span></div>
+            <div style="margin-top: 10px;">Como jogar: Host cria sala → Guest entra com ID → Iniciar Jogo!</div>
+        </div>
+    </div>
+
+    <div id="gameContainer">
+        <div id="ui">
+            <div id="level">Nível 1</div>
+            <div id="coinsCarried">Moedas: 0/5</div>
+            <div id="coinsStored">Guardadas: 0</div>
+            <div id="experienceBar">
+                <div id="experienceFill"></div>
+            </div>
+            <div id="nextLevelInfo">Próximo nível: 10 moedas</div>
+            <div id="exp" style="font-size: 12px; color: #E0E0E0;">EXP: 0/10</div>
+            
+            <div id="playerStats">
+                <div class="stat">Velocidade: 100%</div>
+                <div class="stat">Capacidade: 5 moedas</div>
+                <div class="stat">Alcance: 100%</div>
+                <div class="stat" id="dashStatus">Dash: Pronto</div>
+            </div>
+        </div>
+        
+        <div id="instructions">
+            WASD/Setas: Mover • ESPAÇO: Pular • Shift: Dash • Colete moedas e leve para a máquina central!
+        </div>
+        
+        <div id="mobileControls">
+            <div id="joystick">
+                <div id="joystickKnob"></div>
+            </div>
+            <div id="mobileButtons">
+                <button id="jumpButton" class="mobileButton">🤸</button>
+                <button id="dashButton" class="mobileButton">💨</button>
+            </div>
+        </div>
+        
+        <div class="machinePrompt" id="machineHint">
+            Pressione ESPAÇO para guardar suas moedas!
+        </div>
+        
+        <div id="levelUpNotification">
+            <h2>NÍVEL AUMENTOU!</h2>
+            <p id="newLevelText">Nível 2</p>
+            <p id="levelUpBonus">Novas habilidades desbloqueadas!</p>
+        </div>
+    </div>
+
+    <div id="tapPrompt">Toque na tela para abrir em tela cheia!</div>
+
+    <!-- ==================================== -->
+    <!-- SCRIPTS -->
+    <!-- ==================================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="webrtc-p2p.js"></script>
+    <script src="jj.js"></script>
+</body>
+</html>
