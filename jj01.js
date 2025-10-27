@@ -1474,49 +1474,111 @@ function animate() {
     updateUI();
 }
 
-// Cria um overlay de confirmação estilizado
-function mostrarConfirmacaoSaida() {
-    // Cria o fundo escuro
+// Função para mostrar modal de confirmação estilizado para jogo
+function mostrarConfirmacaoSaida(acaoSim, acaoNao) {
+    // Cria overlay
     const overlay = document.createElement('div');
-    overlay.style.position = 'fixed';
-    overlay.style.top = 0;
-    overlay.style.left = 0;
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0,0,0,0.7)';
-    overlay.style.display = 'flex';
-    overlay.style.alignItems = 'center';
-    overlay.style.justifyContent = 'center';
-    overlay.style.zIndex = 9999;
+    Object.assign(overlay.style, {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999,
+        opacity: 0,
+        transition: 'opacity 0.3s ease'
+    });
 
-    // Cria o modal
+    // Cria modal
     const modal = document.createElement('div');
-    modal.style.backgroundColor = '#fff';
-    modal.style.padding = '30px';
-    modal.style.borderRadius = '10px';
-    modal.style.textAlign = 'center';
-    modal.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+    Object.assign(modal.style, {
+        backgroundColor: '#111',
+        padding: '40px 60px',
+        borderRadius: '15px',
+        textAlign: 'center',
+        boxShadow: '0 0 20px #0ff, 0 0 40px #0ff inset',
+        color: '#fff',
+        fontFamily: 'Verdana, sans-serif',
+        transform: 'scale(0.7)',
+        transition: 'transform 0.3s ease'
+    });
+
     modal.innerHTML = `
-        <p>Tem certeza que deseja sair desta página?</p>
-        <button id="sim">Sim</button>
-        <button id="nao">Não</button>
+        <p style="font-size: 22px; margin-bottom: 30px;">Tem certeza que deseja sair do jogo?</p>
+        <button id="sim" style="
+            padding: 12px 30px;
+            margin-right: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #00ff00;
+            color: #000;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        ">Sim</button>
+        <button id="nao" style="
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff0044;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        ">Não</button>
     `;
 
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 
-    // Botões
-    document.getElementById('sim').onclick = function() {
-        window.location.href = "https://www.google.com"; // ou qualquer ação de saída
-    }
-    document.getElementById('nao').onclick = function() {
-        document.body.removeChild(overlay); // fecha o modal
-    }
+    // Animação de entrada
+    requestAnimationFrame(() => {
+        overlay.style.opacity = '1';
+        modal.style.transform = 'scale(1)';
+    });
+
+    // Botões com hover
+    const botaoSim = document.getElementById('sim');
+    const botaoNao = document.getElementById('nao');
+
+    botaoSim.onmouseover = () => botaoSim.style.boxShadow = '0 0 15px #0f0';
+    botaoSim.onmouseout = () => botaoSim.style.boxShadow = 'none';
+
+    botaoNao.onmouseover = () => botaoNao.style.boxShadow = '0 0 15px #f00';
+    botaoNao.onmouseout = () => botaoNao.style.boxShadow = 'none';
+
+    // Ações dos botões
+    botaoSim.onclick = function() {
+        modal.style.transform = 'scale(0.7)';
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(overlay);
+            if(acaoSim) acaoSim();
+        }, 300);
+    };
+
+    botaoNao.onclick = function() {
+        modal.style.transform = 'scale(0.7)';
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(overlay);
+            if(acaoNao) acaoNao();
+        }, 300);
+    };
 }
 
-// Exemplo de uso: mostra quando clica em um botão
-document.addEventListener('keydown', function(e) {
-    if(e.key === "Escape") { // só como exemplo, você escolhe o gatilho
-        mostrarConfirmacaoSaida();
+// Exemplo de uso no seu jogo:
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { // Ao apertar ESC
+        mostrarConfirmacaoSaida(
+            () => console.log("Saindo do jogo..."),
+            () => console.log("Continuando no jogo")
+        );
     }
 });
