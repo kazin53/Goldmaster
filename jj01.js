@@ -1571,7 +1571,7 @@ document.addEventListener('keydown', (e) => {
 // Segurança: navegador alerta ao fechar ou recarregar
 // ------------------------
 window.addEventListener('beforeunload', function (e) {
-    const mensagem = "Tem certeza que deseja sair desta página?";
+    const mensagem = "Tem certeza que deseja sair do mundo?";
     e.returnValue = mensagem; // Chrome, Edge
     return mensagem;          // Outros navegadores
 });
