@@ -1473,11 +1473,50 @@ function animate() {
     }
     updateUI();
 }
-// Detecta quando o usuário tenta sair ou recarregar a página
-window.addEventListener('beforeunload', function (e) {
-    const mensagem = "Tem certeza que deseja sair desta página?";
-    
-    // Para compatibilidade com navegadores
-    e.returnValue = mensagem; // Chrome, Edge
-    return mensagem;           // Outros navegadores
+
+// Cria um overlay de confirmação estilizado
+function mostrarConfirmacaoSaida() {
+    // Cria o fundo escuro
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0,0,0,0.7)';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.zIndex = 9999;
+
+    // Cria o modal
+    const modal = document.createElement('div');
+    modal.style.backgroundColor = '#fff';
+    modal.style.padding = '30px';
+    modal.style.borderRadius = '10px';
+    modal.style.textAlign = 'center';
+    modal.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+    modal.innerHTML = `
+        <p>Tem certeza que deseja sair desta página?</p>
+        <button id="sim">Sim</button>
+        <button id="nao">Não</button>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    // Botões
+    document.getElementById('sim').onclick = function() {
+        window.location.href = "https://www.google.com"; // ou qualquer ação de saída
+    }
+    document.getElementById('nao').onclick = function() {
+        document.body.removeChild(overlay); // fecha o modal
+    }
+}
+
+// Exemplo de uso: mostra quando clica em um botão
+document.addEventListener('keydown', function(e) {
+    if(e.key === "Escape") { // só como exemplo, você escolhe o gatilho
+        mostrarConfirmacaoSaida();
+    }
 });
