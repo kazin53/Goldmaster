@@ -611,6 +611,36 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
+    
+(function bloquearVoltarParaGames() {
+  // Detecta se o usuário veio de um dos games
+  const ref = document.referrer; // página anterior
+
+  // Lista de páginas que NÃO pode voltar
+  const games = [
+    "game1.html",
+    "game2.html",
+    "game3.html",
+    "game4.html",
+    "game5.html",
+    "game6.html"
+  ];
+
+  // Se veio de uma dessas páginas
+  if (ref && games.some(p => ref.includes(p))) {
+    // Substitui a entrada no histórico (remove a página anterior)
+    window.location.replace(window.location.href);
+  }
+
+  // Impede o botão voltar de sair do index
+  if (window.history && window.history.pushState) {
+    history.pushState(null, null, window.location.href);
+    window.addEventListener("popstate", () => {
+      history.pushState(null, null, window.location.href);
+    });
+  }
+})();
+
     </script>
 </body>
 </html>
