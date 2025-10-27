@@ -1473,4 +1473,11 @@ function animate() {
     }
     updateUI();
 }
-
+// Detecta quando o usuário tenta sair ou recarregar a página
+window.addEventListener('beforeunload', function (e) {
+    const mensagem = "Tem certeza que deseja sair desta página?";
+    
+    // Para compatibilidade com navegadores
+    e.returnValue = mensagem; // Chrome, Edge
+    return mensagem;           // Outros navegadores
+});
