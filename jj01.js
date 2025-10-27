@@ -1474,60 +1474,29 @@ function animate() {
     updateUI();
 }
 
-// ------------------------
-// Modal estilizado dentro do jogo
-// ------------------------
+// Para adicionar o modal de confirmação 
 function mostrarConfirmacaoSaida(acaoSim, acaoNao) {
     const overlay = document.createElement('div');
     Object.assign(overlay.style, {
         position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 9999,
-        opacity: 0,
-        transition: 'opacity 0.3s ease'
+        top: 0, left: 0, width: '100%', height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        zIndex: 9999, opacity: 0, transition: 'opacity 0.3s ease'
     });
 
     const modal = document.createElement('div');
     Object.assign(modal.style, {
-        backgroundColor: '#111',
-        padding: '30px 50px',
-        borderRadius: '12px',
-        textAlign: 'center',
-        boxShadow: '0 0 15px #0ff, 0 0 30px #0ff inset',
-        color: '#fff',
-        fontFamily: 'Verdana, sans-serif',
-        transform: 'scale(0.7)',
-        transition: 'transform 0.3s ease'
+        backgroundColor: '#111', padding: '30px 50px', borderRadius: '12px',
+        textAlign: 'center', boxShadow: '0 0 15px #0ff, 0 0 30px #0ff inset',
+        color: '#fff', fontFamily: 'Verdana, sans-serif',
+        transform: 'scale(0.7)', transition: 'transform 0.3s ease'
     });
 
     modal.innerHTML = `
-        <p style="font-size: 20px; margin-bottom: 25px;">Tem certeza que deseja sair do jogo?</p>
-        <button id="sim" style="
-            padding: 10px 25px;
-            margin-right: 10px;
-            border: none;
-            border-radius: 6px;
-            background-color: #00ff00;
-            color: #000;
-            font-size: 16px;
-            cursor: pointer;
-        ">Sim</button>
-        <button id="nao" style="
-            padding: 10px 25px;
-            border: none;
-            border-radius: 6px;
-            background-color: #ff0044;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        ">Não</button>
+        <p style="font-size:20px; margin-bottom:25px;">Tem certeza que deseja sair do jogo?</p>
+        <button id="sim" style="padding:10px 25px; margin-right:10px; border:none; border-radius:6px; background-color:#00ff00; color:#000; font-size:16px; cursor:pointer;">Sim</button>
+        <button id="nao" style="padding:10px 25px; border:none; border-radius:6px; background-color:#ff0044; color:#fff; font-size:16px; cursor:pointer;">Não</button>
     `;
 
     overlay.appendChild(modal);
@@ -1557,7 +1526,7 @@ function mostrarConfirmacaoSaida(acaoSim, acaoNao) {
     };
 }
 
-// Exemplo de uso: tecla ESC abre o modal
+// Exemplo de uso no jogo
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         mostrarConfirmacaoSaida(
@@ -1565,13 +1534,4 @@ document.addEventListener('keydown', (e) => {
             () => console.log("Continuando no jogo")
         );
     }
-});
-
-// ------------------------
-// Segurança: navegador alerta ao fechar ou recarregar
-// ------------------------
-window.addEventListener('beforeunload', function (e) {
-    const mensagem = "Tem certeza que deseja sair do mundo?";
-    e.returnValue = mensagem; // Chrome, Edge
-    return mensagem;          // Outros navegadores
 });
